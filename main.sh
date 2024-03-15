@@ -3,7 +3,8 @@ RUN_SFT=false
 
 if $RUN_DPO; then
     python src/dpo.py \
-        --model_name_or_path='./results/models_tuned/opi/flan-t5-xl/1' \
+        --model flan-t5-xl \
+        --model_name_or_path='./results/models_tuned/opi/flan-t5-xl/0' \
         --output_dir="" \
         --per_device_train_batch_size 4 \
         --max_steps 100 \
@@ -28,7 +29,7 @@ if $RUN_DPO; then
         --measure_time
 
     python src/run.py --model flan-t5-xl \
-        --model_path="./results/models_tuned/opi/flan-t5-xl/0" \
+        --model_path="./results/dpo_output/flan-t5-xl" \
         --dataset opi \
         --n_samples 250 \
         --dpo

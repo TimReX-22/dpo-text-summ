@@ -30,6 +30,7 @@ class DPOArguments:
         default=False, metadata={"help": "Generate during evaluation"})
     measure_time: bool = field(default=False, metadata={
                                "help": "measure time of training"})
+    model: str = field(default=None, metadata={"help": "model name"})
 
 
 @dataclass
