@@ -14,21 +14,12 @@ tqdm.pandas()
 def run_dpo():
     parser = HfArgumentParser((DPOArguments, TrainingArguments, ModelConfig))
     args, training_args, model_config = parser.parse_args_into_dataclasses()
+    training_args.output_dir = os.path.join(
+        constants.RESULTS_DIR, "dpo_output", args.model)
+    os.makedirs(training_args.output_dir, exist_ok=True)
 
-    model = AutoPeftModelForSeq2SeqLM.from_pretrained(
-        model_config.model_name_or_path,
-        quantization_config=constants.DEFAULT_QUANTIZATION_CONFIG,
-        is_trainable=True)
-
-    model_ref = AutoPeftModelForSeq2SeqLM.from_pretrained(
-        model_config.model_name_or_path,
-        quantization_config=constants.DEFAULT_QUANTIZATION_CONFIG) if args.use_ref_model else None
-    print(
-        f"[INFO] Using {'NO' if not args.use_ref_model else 'a'} reference model")
-
-    print(f"[INFO] Model loaded: {model_config.model_name_or_path}")
-    tokenizer = AutoTokenizer.from_pretrained(model_config.model_name_or_path)
-    tokenizer.pad_token = tokenizer.eos_token
+    model, model_ref, tokenizer = util.load_model_and_tokenizer_dpo(
+        model_config, args)
 
     dataset_path = os.path.join(
         constants.DATA_DIR, "radiology_report_comparison_dataset.csv")
@@ -59,7 +50,7 @@ def run_dpo():
 
     if args.measure_time:
         end_time = time.time()
-        execution_time = start_time - end_time
+        execution_time = end_time - start_time
         print(f"[INFO] Execution time: {execution_time}")
 
     trainer.save_model(training_args.output_dir)
