@@ -82,10 +82,15 @@ def get_finetuned_model(model, args):
 def load_model_and_tokenizer_wrapper(args):
     ''' wrapper for loading model and tokenizer '''
 
-    model, tokenizer = util.load_model_and_tokenizer(args)
-    tokenizer.eos_token_id = 1
-    model = get_finetuned_model(model, args)
-    model.to(args.device)
+    if args.dpo:
+        model, tokenizer = util.load_peft_model_and_tokenizer(args)
+        tokenizer.eos_token_id = 1
+        model.to(args.device)
+    else:
+        model, tokenizer = util.load_model_and_tokenizer(args)
+        tokenizer.eos_token_id = 1
+        model = get_finetuned_model(model, args)
+        model.to(args.device)
 
     return model, tokenizer
 

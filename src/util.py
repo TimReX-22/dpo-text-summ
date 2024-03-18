@@ -78,6 +78,19 @@ def load_model_and_tokenizer(args):
     return model, tokenizer
 
 
+def load_peft_model_and_tokenizer(args):
+    ''' load PEFT model and tokenizer '''
+
+    quantization_config = constants.DEFAULT_QUANTIZATION_CONFIG
+    model_path = constants.MODELS[args.model] if args.model_path is None else args.model_path
+    print(f"[INFO] Loading model at path: {model_path}")
+    model = AutoPeftModelForSeq2SeqLM.from_pretrained(
+        model_path, quantization_config=quantization_config)
+
+    tokenizer = AutoTokenizer.from_pretrained(args.model_path, use_fast=True)
+    return model, tokenizer
+
+
 def set_preliminaries(train: bool = True):
     ''' parse args, set paths, create dirs, basic checks '''
 

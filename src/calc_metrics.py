@@ -30,13 +30,13 @@ def main():
     is_cxr = True if args.dataset in ['cxr', 'opi'] else False
     if (not CALC_REDUNDANT and
             os.path.exists(os.path.join(args.dir_out, constants.FN_METRICS_TXT))):
-        print(f'metrics already calculated for {args.dir_out}')
+        print(f'[ERROR] Metrics already calculated for {args.dir_out}')
         sys.exit()
 
     # load data
     dataset = summ_dataset.SummDataset(args, task=None, purpose='load_result')
     if len(dataset.data) == 0:
-        print('no data loaded')
+        print('[ERROR] No data loaded')
         sys.exit()
     lst_tgt = dataset.list_target
     lst_out = dataset.list_output
