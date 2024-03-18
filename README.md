@@ -1,0 +1,3 @@
+# Direct Clinician Preference Optimization: Clinical Text Summarization via Expert Feedback-Integrated LLMs
+
+This repository contains the code for the final project of the class 'CS224n Natural Language Processing with Deep Learning' at Stanford. This project introduces a novel approach to address the challenges of clinical text summarization, which is crucial yet cumbersome for healthcare professionals. By integrating an open-source, lighter-weight Large Language Model (LLM) with Direct Preference Optimization (DPO) and Supervised Fine-Tuning (SFT), we present a solution that not only enhances the model's performance but also aligns it more closely with the nuanced demands of clinical practice, offering a promising alternative to proprietary technologies.
